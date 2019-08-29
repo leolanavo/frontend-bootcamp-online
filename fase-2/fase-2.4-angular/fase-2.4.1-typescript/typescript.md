@@ -38,19 +38,19 @@ Uma cadeia de carácteres modelo, declaradas usando ``` (crase), podem ser usada
 cadeia de carácteres usando código TypeScript.
 
 ```typeScript
-let firstName: string = "Roberta";
-let lastName: string = "Árvore";
-let age: number = 19;
+let primeiroNome: string = "Roberta";
+let ultimoNome: string = "Árvore";
+let idade: number = 19;
 
-let info: string = `${firstName} ${lastName} ${age + 1}!!` //Roberta Árvore 20!!
+let info: string = `${primeiroNome} ${ultimoNome} ${idade + 1}!!` //Roberta Árvore 20!!
 ```
 
 ### Array
 Listas são declaradas colocando `[]` na frente de um dos outros tipos.
 
 ```typescript
-let numberArray: number[] = [1, 2, 3];
-let stringArray: string[] = ["Foo", "Barr"];
+let listaNumeros: number[] = [1, 2, 3];
+let listaPalavras: string[] = ["Foo", "Barr"];
 ``` 
 
 ### Enum
@@ -59,10 +59,10 @@ criados usando a palavra chave `enum` antes do nome da enumeração. No geral, e
 usam valores em sequência, iniciando do `0`.
 
 ```typescript
-enum Color {
-  Red, // = 0
-  Blue, // = 1
-  Green, // = 2
+enum Cor {
+  Vermelho, // = 0
+  Azul, // = 1
+  Verde, // = 2
 }
 ```
 
@@ -71,11 +71,11 @@ particular, mudar o valor de uma das chaves da enumeração, muda o inicio da se
 próximas chaves.
 
 ```typescript
-enum Color {
-  Red = 3, // = 3
-  Blue, // = 4
-  Green = 7, // = 7
-  Yellow, // = 8
+enum Cor {
+  Vermelho = 3, // = 3
+  Azul, // = 4
+  Verde = 7, // = 7
+  Amarelo, // = 8
 }
 ```
 
@@ -85,8 +85,8 @@ Iremos aprofundar em objetos ao falarmos de classes e interfaces.
 
 ```typescript
 let obj: object = {
-  firstName: "Roberta",
-  lastName: "Árvore",
+  primeiroNome: "Roberta",
+  ultimoNome: "Árvore",
 }
 ```
 
@@ -96,12 +96,12 @@ ter qualquer tipo de valor.
 
 ```typescript
 let x: any = 4
-x = "it can be a string"
+x = "pode ser uma palavra"
 x = false
 ```
 
-**Observação**: evite usar `any` o máximo possível, usando esse tipo, a maior vantagem de usar 
-TypeScript, a tipagem forte, não terá efeito.
+**Observação**: evite usar `any` o máximo possível, usando esse tipo, a maior vantidadem de usar 
+TypeScript, a tipidadem forte, não terá efeito.
 
 ### Outros tipos
 Tipos como `void`, `null` e `undefined` são utéis somente para declarações de funções, e serão
@@ -189,3 +189,103 @@ if (true) {
 
 console.log(x); // compilador irá jogar um erro
 ```
+
+## Interfaces
+
+Quando declaramos uma variável com o tipo `object` não determinamos o formato do objeto, ou seja,
+ele pode ter qualquer chave, com qualquer valor. Se usarmos `interfaces`, podemos garantir
+que um objeto tenho certas chaves e quais os tipos dos valores para cada chave.
+
+```typescript
+interface FullName {
+  primeiroNome: string;
+  ultimoNome: string;
+}
+
+const obj: FullName = {
+  primeiroNome: "Roberta",
+  ultimoNome: "Árvore",
+}
+```
+
+Se `obj` não tiver `primeiroNome` ou `ultimoNome` presentes ou o valor associado a essas chaves não
+for do tipo `string` o compilador irá jogar um erro.
+
+### Valores opcionais
+
+Se quisermos indicar que alguma das propriedades não é obrigatória, podemos colocar `?` logo
+depois do nome da propriedade.
+
+```typescript
+interface FullName {
+  primeiroNome: string;
+  segundoNome?: string;
+  ultimoNome: string;
+}
+
+const name1: FullName = {
+  primeiroNome: "Roberta",
+  ultimoNome: "Árvore",
+}
+
+const name2: FullName = {
+  primeiroNome: "Lucas",
+  segundoNome: "Santos",
+  ultimoNome: "Silva",
+}
+```
+
+### Propriedades de somente leitura
+Se quisermos que uma das propriedades não sejam mudadas após a declaração do objeto, podemos a
+palavra `readonly`.
+
+```typescript
+interface Ponto {
+  readonly x: number;
+  readonly y: number;
+}
+
+const ponto: Ponto = { x: 10, y: 10 };
+ponto.x = 20 // compilador irá jogar um erro
+```
+
+### Interface extensíveis
+Se quisermos que além das propriedades declaradas, a interface possa aceitar chaves além das
+declaradas podemos declarar tipos indexaveis dentro dela.
+
+```typescript
+interface Ponto {
+  readonly x: number;
+  readonly y: number;
+  [key: string]: number;
+}
+```
+
+Agora a interface `Ponto` além de `x` e `y`, ela aceita qualquer par em que a chave seja uma 
+`string` e o valor seja um `número`.
+
+
+### Herança de interfaces
+
+Podemos criar uma interface que herda todas as propriedades de outra interface, usando a palavra
+`extends`.
+
+```typescript
+interface Ponto {
+  x: number;
+  y: number;
+}
+
+interface Ponto3D extends Ponto {
+  z: number;
+}
+
+const ponto3d: Ponto3D = {
+  x: 10,
+  y: 10,
+  z: 15,
+};
+```
+
+Como `Ponto3D` extende `Ponto`, `Ponto3D` recebe tudo que foi declarado em `Ponto`.
+
