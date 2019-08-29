@@ -289,3 +289,21 @@ const ponto3d: Ponto3D = {
 
 Como `Ponto3D` extende `Ponto`, `Ponto3D` recebe tudo que foi declarado em `Ponto`.
 
+## Funções
+
+Funções são blocos de código que podem ser re-executados, aumentando a reusabilidade do código. E
+podem ser declaradas usando a palavra `function`. Podemos tipar os argumentos da função,
+e o tipo que essa função retorna, usamos o tipo `void`, caso a função não retorne nada.
+
+```typescript
+function somaUm(x: number): number {
+  return x + 1;
+}
+
+function imprime(palavra: string): void {
+  console.log(palavra);
+}
+
+somaUm(4) // retorna 5
+imprime("Foo") // não retorna nada
+```
